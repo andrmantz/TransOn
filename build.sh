@@ -21,8 +21,8 @@ read -s jwtpassword
 echo -e "\e[1A\e[K"
 echo
 
-kubectl create secret generic sensitive-data --from-literal PGUSER=$pguser --from-literal PGPASSWORD=$pgpassword --from-literal MNUSER=$mnuser --from-literal MNPASSWORD=$mnpassword --from-literal JWTPASSWORD=$jwtpassword
-kubectl -n fission-function create secret generic sensitive-data --from-literal PGUSER=$pguser --from-literal PGPASSWORD=$pgpassword --from-literal MNUSER=$mnuser --from-literal MNPASSWORD=$mnpassword --from-literal JWTPASSWORD=$jwtpassword
+kubectl create secret generic sensitive-data --from-literal PGUSER=$pguser --from-literal PGPASSWORD=$pgpassword --from-literal MNUSER=$mnuser --from-literal MNPASSWORD=$mnpassword --from-literal JWTPASSWORD=$jwtpassword >/dev/null
+kubectl -n fission-function create secret generic sensitive-data --from-literal PGUSER=$pguser --from-literal PGPASSWORD=$pgpassword --from-literal MNUSER=$mnuser --from-literal MNPASSWORD=$mnpassword --from-literal JWTPASSWORD=$jwtpassword >/dev/null
 
 
 
@@ -47,7 +47,7 @@ fission spec apply 1>/dev/null
 echo -e "\e[1A\e[KRemoving uneeded files..."
 
 # Cleanup
-rm -rf frontend-source.zip api-source.zip
+rm -rf frontend-source.zip api-source.zip app/node_modules app/.next
 
 
 echo -ne "\e[1A\e[K"
