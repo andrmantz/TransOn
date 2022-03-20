@@ -13,7 +13,7 @@ function Footer() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav style={{ "margin": "auto" }}>
                         <Nav.Link className={styles.footer_link} href="https://fission.io">Fission framework</Nav.Link>
-                        <Nav.Link className={styles.footer_link} href="#"
+                        <Nav.Link className={styles.footer_link} href="https://github.com/andrmantz/ServerlessFileSharingApp"
                             rel='noopener noreferrer' target='_blank'>
                             Github Repo
                         </Nav.Link>
