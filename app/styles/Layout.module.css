@@ -1,0 +1,34 @@
+.footer {
+  background-color: rgb(219, 219, 219);
+  border-top: 0.5px solid rgb(209, 209, 209);
+}
+
+.footer_link {
+  /* display: inline-block; */
+  margin: 0px 25px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #70757a;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.footer_link:hover {
+  text-decoration: underline;
+  color: #000000;
+}
+.navbar_link {
+  margin: 0px 5px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #70757a;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.navbar_link:hover {
+  text-decoration: none;
+  border: none;
+  color: #000000 !important;
+  background-color: #ffffff;
+}

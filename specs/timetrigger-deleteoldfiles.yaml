@@ -1,0 +1,12 @@
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  creationTimestamp: null
+  name: deleteoldfiles
+  namespace: default
+spec:
+  cron: '@daily'
+  functionref:
+    functionweights: null
+    name: deleteoldfiles
+    type: name

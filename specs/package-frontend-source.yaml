@@ -1,0 +1,25 @@
+include:
+- frontend-source.zip
+kind: ArchiveUploadSpec
+name: frontend-source-zip-OTxa
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: frontend-source
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+    type: url
+    url: archive://frontend-source-zip-OTxa
+  environment:
+    name: nodejs
+    namespace: default
+  source:
+    checksum: {}
+status:
+  buildstatus: none
+  lastUpdateTimestamp: "2022-03-20T16:31:55Z"

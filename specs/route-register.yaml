@@ -1,0 +1,23 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  creationTimestamp: null
+  name: register
+  namespace: default
+spec:
+  createingress: true
+  functionref:
+    functionweights: null
+    name: register
+    type: name
+  host: ""
+  ingressconfig:
+    annotations: null
+    host: '*'
+    path: /register
+    tls: ""
+  method: ""
+  methods:
+  - POST
+  prefix: ""
+  relativeurl: /register

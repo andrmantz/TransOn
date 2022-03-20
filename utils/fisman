@@ -1,0 +1,39 @@
+#!/bin/sh
+param=$1
+
+
+if [ "$param" == "start" ] || [ "$param" == "restart" ]; then
+	if [ "$param" == "restart" ]; then
+		minikube -p fis stop
+		minikube -p fis delete
+		echo "Restarting..."
+	fi
+	minikube -p fis start
+	echo "[*] Installing fission in the cluster"
+	kubectl create namespace fission 2>/dev/null
+	kubectl create -k "github.com/fission/fission/crds/v1?ref=v1.15.1" 2>/dev/null
+	helm install --version v1.15.1 --namespace fission fission \
+		--set serviceType=NodePort,routerServiceType=NodePort \
+		fission-charts/fission-all
+	
+	minikube -p fis addons enable ingress
+
+elif [ "$param" == "stop" ]; then
+	minikube -p fis stop
+
+elif [ "$param" == "rm" ]; then
+	minikube -p fis stop 2>/dev/null
+	minikube -p fis delete
+elif [ "$param" == "router" ]; then
+	echo $(minikube -p fis ip):$(kubectl -n fission get svc router -o jsonpath='{...nodePort}')
+elif [ "$param" == "clean" ]; then
+	python3 /home/andreas/.local/bin/fisclean.py
+elif [ "$param" == "list" ]; then
+	echo "[+] Functions"
+	fission fn list
+	echo
+	echo "[+] Routes"
+	fission route list
+elif [ "$param" == "status" ]; then
+	minikube -p fis status
+fi

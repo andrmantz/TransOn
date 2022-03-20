@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      component: minio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: minio
+    spec:
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: minio-pv-claim
+      containers:
+        - name: minio
+          image: andrmantz/fission-minio:latest
+          command: ["/entrypoint.sh"]
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "50m"
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: MNUSER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: MNPASSWORD
+                  name: sensitive-data
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          volumeMounts:
+            - name: storage
+              mountPath: "/data"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: minio-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: minio
+  ports:
+    - port: 9000
+      targetPort: 9000

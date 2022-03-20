@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-persistent-volume-claim
+  namespace: default
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      restartPolicy: Always
+      containers:
+        - name: postgres
+          image: andrmantz/fission-pg
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+              subPath: postgres
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: PGUSER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: PGPASSWORD
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-cluster-ip-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    component: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

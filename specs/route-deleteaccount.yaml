@@ -1,0 +1,23 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  creationTimestamp: null
+  name: deleteaccount
+  namespace: default
+spec:
+  createingress: true
+  functionref:
+    functionweights: null
+    name: deleteaccount
+    type: name
+  host: ""
+  ingressconfig:
+    annotations: null
+    host: '*'
+    path: /delete_account
+    tls: ""
+  method: ""
+  methods:
+  - DELETE
+  prefix: ""
+  relativeurl: /delete_account

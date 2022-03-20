@@ -1,0 +1,46 @@
+apiVersion: fission.io/v1
+kind: Environment
+metadata:
+  creationTimestamp: null
+  name: python
+  namespace: default
+spec:
+  builder:
+    command: build
+    image: fission/python-builder:latest
+  imagepullsecret: ""
+  keeparchive: false
+  poolsize: 3
+  resources: {}
+  runtime:
+    image: fission/python-env:latest
+    podspec:
+      containers:
+        - name: python
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: PGUSER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: PGPASSWORD
+            - name: MNUSER
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: MNUSER
+            - name: MNPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: MNPASSWORD
+            - name: JWTPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-data
+                  key: JWTPASSWORD
+  version: 3
