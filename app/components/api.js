@@ -59,6 +59,6 @@ export const delete_account = () => {
 }
 
 export const get_from_link = (url) => {
-  const requestUrl = "/view?u=" + url;
+  const requestUrl = "/view_file?u=" + url;
   return axios.get(requestUrl, {});
 }

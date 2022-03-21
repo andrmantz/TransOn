@@ -14,10 +14,10 @@ spec:
   ingressconfig:
     annotations: null
     host: '*'
-    path: /view
+    path: /view_file
     tls: ""
   method: ""
   methods:
   - GET
   prefix: ""
-  relativeurl: /view
+  relativeurl: /view_file

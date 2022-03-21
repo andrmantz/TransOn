@@ -10,11 +10,8 @@ import { Button, Grid, Paper, Typography } from "@mui/material";
 export default function File() {
     const [data, setData] = useState(null);
 
-
-
     const router = useRouter();
     const url = router.query.file;
-
 
     get_from_link(url)
         .then(response => {
@@ -25,6 +22,7 @@ export default function File() {
             console.log("nop")
 
         })
+
 
     if (!data) {
         return (
