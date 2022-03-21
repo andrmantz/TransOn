@@ -7,13 +7,13 @@ metadata:
 spec:
   builder:
     command: build
-    image: fission/python-builder:latest
+    image: fission/python-builder:1.33.1
   imagepullsecret: ""
   keeparchive: false
   poolsize: 3
   resources: {}
   runtime:
-    image: fission/python-env:latest
+    image: fission/python-env:1.33.1
     podspec:
       containers:
         - name: python
@@ -43,4 +43,4 @@ spec:
                 secretKeyRef:
                   name: sensitive-data
                   key: JWTPASSWORD
-  version: 3
+  version: 2

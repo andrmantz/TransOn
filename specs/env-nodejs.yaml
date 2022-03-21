@@ -11,5 +11,5 @@ spec:
   poolsize: 3
   resources: {}
   runtime:
-    image: fission/node-env
+    image: fission/node-env:1.32.2
   version: 2
